@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    show-sql: false
+
+lendstack-dev:
+  # Demo data is inserted by DevDataSeeder (Java, idempotent) rather than Flyway,
+  # because PII columns must be encrypted with the runtime AES key.
+  seed-demo-data: true
+
+lendstack:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
+    encryption:
+      pii-key: ${PII_ENCRYPTION_KEY:ZGV2LW9ubHkta2V5LWRvLW5vdC11c2UtaW4tcHJvZCE=}
+
+logging:
+  level:
+    ng.lendstack: DEBUG

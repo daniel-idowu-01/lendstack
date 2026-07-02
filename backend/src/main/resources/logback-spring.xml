@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+      NDPC compliance: every log message passes through the PII masking converter.
+      BVN/NIN (11 digits) and NUBAN account numbers (10 digits) are masked to their
+      last 4 digits before anything is written to an appender.
+    -->
+    <conversionRule conversionWord="maskedMsg"
+                    converterClass="ng.lendstack.common.logging.PiiMaskingConverter"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %maskedMsg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

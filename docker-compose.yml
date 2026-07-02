@@ -1,0 +1,72 @@
+name: lendstack
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME:-lendstack}
+      POSTGRES_USER: ${DB_USER:-lendstack}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lendstack}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-lendstack} -d ${DB_NAME:-lendstack}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-lendstack}
+      DB_USER: ${DB_USER:-lendstack}
+      DB_PASSWORD: ${DB_PASSWORD:-lendstack}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env (min 32 chars)}
+      PII_ENCRYPTION_KEY: ${PII_ENCRYPTION_KEY:?set PII_ENCRYPTION_KEY in .env (base64, 32 bytes)}
+      PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY:-}
+      PAYSTACK_CALLBACK_URL: ${PAYSTACK_CALLBACK_URL:-http://localhost:3000/borrower/repayments/callback}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost:3000}
+      # CBN parameters — seed values for first migration; editable later via /admin/config
+      CBN_INTEREST_RATE_CAP_ANNUAL: ${CBN_INTEREST_RATE_CAP_ANNUAL:-30.00}
+      CBN_MIN_TENURE_MONTHS: ${CBN_MIN_TENURE_MONTHS:-1}
+      CBN_MAX_TENURE_MONTHS: ${CBN_MAX_TENURE_MONTHS:-24}
+      DEFAULT_INTEREST_RATE_ANNUAL: ${DEFAULT_INTEREST_RATE_ANNUAL:-24.00}
+      PENALTY_RATE_DAILY_PERCENT: ${PENALTY_RATE_DAILY_PERCENT:-0.25}
+      GRACE_PERIOD_DAYS: ${GRACE_PERIOD_DAYS:-3}
+      COLLATERAL_THRESHOLD_NGN: ${COLLATERAL_THRESHOLD_NGN:-2000000}
+      GUARANTOR_TIER1_MAX_NGN: ${GUARANTOR_TIER1_MAX_NGN:-500000}
+      GUARANTOR_TIER2_MAX_NGN: ${GUARANTOR_TIER2_MAX_NGN:-2000000}
+      GUARANTOR_EXPIRY_HOURS: ${GUARANTOR_EXPIRY_HOURS:-72}
+      MIN_LOAN_AMOUNT_NGN: ${MIN_LOAN_AMOUNT_NGN:-50000}
+      MAX_LOAN_AMOUNT_NGN: ${MAX_LOAN_AMOUNT_NGN:-10000000}
+      DELINQUENT_DAYS_TO_DEFAULT: ${DELINQUENT_DAYS_TO_DEFAULT:-90}
+      DOCUMENT_STORAGE_DIR: /app/data/documents
+    volumes:
+      - documents:/app/data/documents
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080}
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080}
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
+  documents:
