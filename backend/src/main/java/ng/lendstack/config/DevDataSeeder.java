@@ -21,16 +21,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * DEV-ONLY demo data (idempotent). Lives in Java rather than Flyway because
- * PII columns must be encrypted with the runtime AES key. Demo credentials:
- *
- *   admin@lendstack.ng    / Admin@1234    (ADMIN)
- *   officer@lendstack.ng  / Officer@1234  (LOAN_OFFICER)
- *   amaka@example.com     / Borrower@1234 (BORROWER, KYC complete, BVN verifies)
- *
- * Plus three funded lenders spanning the risk tiers.
- */
+
 @Slf4j
 @Configuration
 @Profile("dev")

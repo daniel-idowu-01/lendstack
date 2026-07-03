@@ -14,7 +14,7 @@ import { Label, Textarea } from "@/components/ui/input";
 import { GuarantorStatusBadge } from "@/components/ui/badge";
 import { ErrorState, LoadingState } from "@/components/page-states";
 
-/** Public page reached from the guarantor's email link — no login needed. */
+
 export default function GuarantorResponsePage() {
   const { token } = useParams<{ token: string }>();
   const queryClient = useQueryClient();

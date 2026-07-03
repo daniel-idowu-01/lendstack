@@ -22,7 +22,6 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ApiEnvelope<unknown>>) => {
     if (error.response?.status === 401 && typeof window !== "undefined") {
-      // Session expired or invalid — send the user back to login.
       clearSession();
       if (!window.location.pathname.startsWith("/login")) {
         window.location.href = "/login?expired=1";
@@ -32,10 +31,7 @@ api.interceptors.response.use(
   },
 );
 
-/**
- * Extracts a human-readable, Nigerian-context message from an API error for
- * toasts and inline errors. Falls back gracefully for network failures.
- */
+
 export function errorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
     const envelope = error.response?.data as ApiEnvelope<unknown> | undefined;
@@ -48,7 +44,7 @@ export function errorMessage(error: unknown): string {
   return "Something went wrong. Please try again or contact support.";
 }
 
-/** Unwraps the { success, data } envelope, throwing on business failure. */
+
 export function unwrap<T>(envelope: ApiEnvelope<T>): T {
   if (!envelope.success || envelope.data === undefined) {
     throw new Error(envelope.error?.message ?? "Unexpected response");

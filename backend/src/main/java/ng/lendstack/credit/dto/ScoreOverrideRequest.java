@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import ng.lendstack.domain.enums.RiskTier;
 
-/** Officer override of the rule-based score. The written reason is mandatory and audited. */
+
 public record ScoreOverrideRequest(
     @Min(0) @Max(100) int score,
     @NotNull RiskTier riskTier,

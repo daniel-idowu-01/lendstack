@@ -20,11 +20,7 @@ import ng.lendstack.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Collateral is required for loans at/above the configurable threshold
- * (collateral.threshold.ngn). A loan cannot be approved or disbursed until at
- * least one collateral record is VERIFIED by an officer.
- */
+
 @Service
 @RequiredArgsConstructor
 public class CollateralService {
@@ -69,7 +65,7 @@ public class CollateralService {
             .map(CollateralResponse::from).toList();
     }
 
-    /** Officer verdict. Re-verification of an already-decided record is allowed and audited. */
+
     @Transactional
     public CollateralResponse verify(UUID officerId, UUID collateralId, CollateralVerifyRequest request) {
         if (request.status() == VerificationStatus.UNVERIFIED) {

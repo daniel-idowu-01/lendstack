@@ -17,11 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Sole writer of the append-only audit trail. Called from every service that
- * mutates state. Snapshots are JSON-serialized and PII-masked before persisting
- * (NDPC: no raw BVN/NIN/account numbers, even in audit data).
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,7 +27,7 @@ public class AuditService {
     private final ObjectMapper objectMapper;
     private final RequestContext requestContext;
 
-    /** Writes in the caller's transaction so the audit entry commits atomically with the change. */
+
     @Transactional(propagation = Propagation.MANDATORY)
     public void record(String entityType, String entityId, String action,
                        Object oldValue, Object newValue, String reason) {
@@ -60,7 +56,7 @@ public class AuditService {
         }
     }
 
-    /** Admin audit viewer: filterable by entity type, actor, and date range. */
+
     @Transactional(readOnly = true)
     public Page<AuditLog> search(String entityType, String entityId, String performedBy,
                                  Instant from, Instant to, Pageable pageable) {
@@ -86,7 +82,7 @@ public class AuditService {
         return repository.findAll(spec, pageable);
     }
 
-    /** Timeline of a single entity (e.g. a loan's full state history), oldest first. */
+
     @Transactional(readOnly = true)
     public List<AuditLog> historyFor(String entityType, String entityId) {
         Specification<AuditLog> spec = (root, query, cb) -> cb.and(

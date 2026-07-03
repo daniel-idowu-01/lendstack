@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
-/** Pagination wrapper used by every list endpoint. */
+
 @Getter
 @AllArgsConstructor
 public class PageResponse<T> {

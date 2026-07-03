@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import ng.lendstack.domain.enums.LoanStatus;
 
-/** The borrower's repayment dashboard for one loan. */
+
 public record ScheduleResponse(
     String loanId,
     String loanReference,

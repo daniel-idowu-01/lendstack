@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import ng.lendstack.domain.enums.Role;
 
-/** ADMIN provisions staff accounts (LOAN_OFFICER or another ADMIN). */
+
 public record CreateStaffRequest(
     @NotBlank @Email String email,
     @NotBlank @Size(min = 8, max = 100) String password,

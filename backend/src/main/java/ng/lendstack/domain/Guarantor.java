@@ -50,7 +50,7 @@ public class Guarantor extends BaseEntity {
     @Builder.Default
     private GuarantorStatus status = GuarantorStatus.PENDING;
 
-    /** One-time token in the accept/decline link sent by (stubbed) email. */
+
     @Column(name = "response_token", nullable = false, unique = true)
     private String responseToken;
 
@@ -60,7 +60,7 @@ public class Guarantor extends BaseEntity {
     @Column(name = "responded_at")
     private Instant respondedAt;
 
-    /** 72h (configurable) after requestedAt; expiry pushes the loan back to UNDER_REVIEW. */
+
     @Column(name = "expires_at")
     private Instant expiresAt;
 

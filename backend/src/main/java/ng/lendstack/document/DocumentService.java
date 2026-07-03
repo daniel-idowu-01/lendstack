@@ -99,7 +99,7 @@ public class DocumentService {
     public record DocumentStream(LoanDocument document, InputStream content) {
     }
 
-    /** Borrower download — must own the loan. */
+
     @Transactional(readOnly = true)
     public DocumentStream downloadOwn(UUID borrowerId, UUID documentId) {
         LoanDocument document = get(documentId);
@@ -109,7 +109,7 @@ public class DocumentService {
         return new DocumentStream(document, storageService.retrieve(document.getStoragePath()));
     }
 
-    /** Staff download (officer review / admin). */
+
     @Transactional(readOnly = true)
     public DocumentStream download(UUID documentId) {
         LoanDocument document = get(documentId);

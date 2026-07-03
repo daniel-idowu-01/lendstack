@@ -3,7 +3,7 @@ package ng.lendstack.document.dto;
 import java.time.Instant;
 import ng.lendstack.domain.LoanDocument;
 
-/** Metadata only — the file itself is streamed from the download endpoint. */
+
 public record DocumentResponse(
     String id,
     String docType,

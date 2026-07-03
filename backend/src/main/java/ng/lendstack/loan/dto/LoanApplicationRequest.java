@@ -8,10 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
-/**
- * Create/update a DRAFT loan application. Hard bounds here are sanity limits;
- * the real CBN-configurable bounds are enforced by LoanPolicyService.
- */
+
 public record LoanApplicationRequest(
     @NotNull @DecimalMin(value = "1000", message = "Loan amount is too small")
     BigDecimal amount,

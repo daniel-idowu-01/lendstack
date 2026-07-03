@@ -34,12 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Repayments via Paystack checkout. Payment application is idempotent (webhook
- * and redirect-verify can both fire) and distributes principal + interest to
- * funding lenders pro-rata. Penalties are retained by the platform. When no
- * PENDING/OVERDUE installments remain, the loan closes automatically.
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -79,7 +74,7 @@ public class RepaymentService {
             installments.stream().map(InstallmentResponse::from).toList());
     }
 
-    /** Creates a Paystack checkout for what remains on one installment (incl. penalty). */
+
     @Transactional
     public PaymentInitResponse initializePayment(UUID borrowerId, UUID installmentId) {
         RepaymentInstallment installment = installmentRepository.findById(installmentId)
@@ -114,7 +109,7 @@ public class RepaymentService {
         return new PaymentInitResponse(reference, amount, init.authorizationUrl());
     }
 
-    /** Webhook entry point — signature already verified by the controller. */
+
     @Transactional
     public void handleWebhookEvent(JsonNode event) {
         if (!"charge.success".equals(event.path("event").asText())) {
@@ -127,11 +122,7 @@ public class RepaymentService {
             data.path("gateway_response").asText(null));
     }
 
-    /**
-     * Redirect-callback fallback: the frontend hits this after Paystack sends
-     * the borrower back. Confirms the charge server-side with Paystack, then
-     * applies it (no-ops if the webhook already did).
-     */
+
     @Transactional
     public InstallmentResponse verifyAndApply(UUID borrowerId, String reference) {
         PaymentTransaction tx = transactionRepository.findByReference(reference)
@@ -196,11 +187,7 @@ public class RepaymentService {
         cureOrClose(loan);
     }
 
-    /**
-     * Pro-rata split by funded share. The last lender absorbs rounding so the
-     * distributed total always equals the collected amount. Penalties are not
-     * distributed (platform revenue).
-     */
+
     private void distributeToLenders(Loan loan, RepaymentInstallment installment) {
         List<LoanFunding> fundings = fundingRepository.findByLoanId(loan.getId());
         if (fundings.isEmpty()) {
@@ -237,7 +224,7 @@ public class RepaymentService {
         }
     }
 
-    /** DELINQUENT loans cure when nothing is overdue; loans with nothing left open close. */
+
     private void cureOrClose(Loan loan) {
         long stillOpen = installmentRepository.countByLoanIdAndStatusIn(loan.getId(),
             List.of(InstallmentStatus.PENDING, InstallmentStatus.OVERDUE));
@@ -258,7 +245,7 @@ public class RepaymentService {
         }
     }
 
-    /** Officer waiver: installment is forgiven; lender exposure is released without repayment. */
+
     @Transactional
     public InstallmentResponse waive(UUID officerId, UUID installmentId, String reason) {
         RepaymentInstallment installment = installmentRepository.findById(installmentId)
@@ -284,7 +271,7 @@ public class RepaymentService {
         return InstallmentResponse.from(installment);
     }
 
-    /** Waived principal is a realized lender loss: exposure released, wallet not credited. */
+
     private void releaseExposure(Loan loan, BigDecimal principal) {
         List<LoanFunding> fundings = fundingRepository.findByLoanId(loan.getId());
         BigDecimal left = principal;

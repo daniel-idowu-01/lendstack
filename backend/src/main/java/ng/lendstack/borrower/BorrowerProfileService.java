@@ -26,11 +26,7 @@ public class BorrowerProfileService {
         return toResponse(profile(userId));
     }
 
-    /**
-     * Updates KYC. Changing the BVN resets bvnVerified — verification happens
-     * during the credit check via the (stubbed) NIBSS lookup. Audit snapshots
-     * only ever contain masked values.
-     */
+
     @Transactional
     public ProfileResponse update(UUID userId, ProfileRequest request) {
         BorrowerProfile profile = profile(userId);
@@ -64,7 +60,7 @@ public class BorrowerProfileService {
             .orElseThrow(() -> ApiException.notFound("Borrower profile not found"));
     }
 
-    /** Masked snapshot for the audit trail — never raw PII (NDPC). */
+
     private Map<String, Object> snapshot(BorrowerProfile p) {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("bvn", p.getBvn() == null ? null : PiiMasker.maskDigits(p.getBvn()));

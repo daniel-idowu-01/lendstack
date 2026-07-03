@@ -33,7 +33,7 @@ public class OfficerLoanService {
     private final LoanTimelineAssembler timelineAssembler;
     private final LoanMapper loanMapper;
 
-    /** Review queue. DRAFTs are excluded — they belong to the borrower until submitted. */
+
     @Transactional(readOnly = true)
     public PageResponse<LoanResponse> queue(LoanStatus status, RiskTier riskTier,
                                             BigDecimal minAmount, BigDecimal maxAmount,
@@ -68,10 +68,7 @@ public class OfficerLoanService {
             timelineAssembler.timelineFor(loan.getId(), true));
     }
 
-    /**
-     * SUBMITTED → UNDER_REVIEW. Re-checks BVN linkage: this is the gate that
-     * guarantees no loan gets past SUBMITTED without a BVN (CBN due diligence).
-     */
+
     @Transactional
     public LoanResponse startReview(UUID loanId) {
         Loan loan = getLoan(loanId);
@@ -86,7 +83,7 @@ public class OfficerLoanService {
         return loanMapper.toResponse(loan);
     }
 
-    /** UNDER_REVIEW or CREDIT_CHECK → REJECTED (terminal). Reason is mandatory and audited. */
+
     @Transactional
     public LoanResponse reject(UUID loanId, String reason) {
         Loan loan = getLoan(loanId);
@@ -94,7 +91,7 @@ public class OfficerLoanService {
         return loanMapper.toResponse(loan);
     }
 
-    /** DEFAULTED → WRITTEN_OFF (terminal): the debt is recognized as unrecoverable. */
+
     @Transactional
     public LoanResponse writeOff(UUID loanId, String reason) {
         Loan loan = getLoan(loanId);

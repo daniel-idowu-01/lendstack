@@ -13,20 +13,7 @@ import ng.lendstack.domain.enums.EmploymentStatus;
 import ng.lendstack.domain.enums.RiskTier;
 import org.springframework.stereotype.Service;
 
-/**
- * Rule-based credit scoring (deliberately not ML — every point is explainable
- * to the loan officer and to the borrower on request). Six rules, 100 points:
- *
- *   employment stability      20
- *   repayment burden          25   (est. monthly installment vs monthly income)
- *   existing obligations      15
- *   repayment history         20
- *   BVN verification          10
- *   guarantor strength        10
- *
- * Tiers: 75+ LOW · 55–74 MEDIUM · 35–54 HIGH · below 35 DECLINED.
- * Officers may override with a mandatory written reason (audit-logged).
- */
+
 @Service
 @RequiredArgsConstructor
 public class CreditScoringService {
@@ -43,7 +30,7 @@ public class CreditScoringService {
     public record ScoreCard(int score, RiskTier riskTier, List<RuleResult> breakdown) {
     }
 
-    /** History facts about the borrower, assembled by the caller. */
+
     public record BorrowerHistory(long openLoans, long closedLoans, boolean everDefaulted) {
     }
 

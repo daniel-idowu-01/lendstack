@@ -14,13 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Generates the full amortization schedule at disbursement using the reducing
- * balance method (CBN-preferred; flat-rate is deliberately not implemented).
- * Each month: interest = outstanding × monthly rate; principal = fixed annuity
- * payment − interest. The final installment absorbs rounding so the principal
- * always sums exactly to the loan amount.
- */
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {

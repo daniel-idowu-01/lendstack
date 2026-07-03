@@ -6,11 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-/**
- * Uniform response envelope for every endpoint:
- * success: { success: true,  data, message, timestamp }
- * error:   { success: false, error: { code, message, details }, timestamp }
- */
+
 @Getter
 @Builder
 @AllArgsConstructor

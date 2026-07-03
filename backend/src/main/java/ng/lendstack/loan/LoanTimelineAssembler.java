@@ -10,10 +10,7 @@ import ng.lendstack.domain.AuditLog;
 import ng.lendstack.loan.dto.LoanTimelineEntry;
 import org.springframework.stereotype.Component;
 
-/**
- * Builds the visual application timeline from the loan's audit history.
- * Borrower views omit performedBy (staff identities stay internal).
- */
+
 @Component
 @RequiredArgsConstructor
 public class LoanTimelineAssembler {

@@ -3,7 +3,7 @@ package ng.lendstack.common.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-/** Business exception carrying a stable error code the frontend can branch on. */
+
 @Getter
 public class ApiException extends RuntimeException {
 

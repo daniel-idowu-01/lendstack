@@ -1,4 +1,3 @@
-// API types mirroring the backend DTOs (ng.lendstack).
 
 export type Role = "BORROWER" | "LOAN_OFFICER" | "ADMIN";
 

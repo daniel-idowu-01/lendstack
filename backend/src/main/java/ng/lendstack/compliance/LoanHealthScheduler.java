@@ -20,14 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Daily loan-health sweep (idempotent — safe to run any number of times):
- * 1. PENDING installments past due date → OVERDUE; their loan → DELINQUENT.
- * 2. OVERDUE installments past the grace period accrue the configured daily
- *    penalty: totalDue × rate% × days-beyond-grace (recomputed, not compounded).
- * 3. Installments overdue ≥ the configured default threshold (default 90 days)
- *    push the loan DELINQUENT → DEFAULTED.
- */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor

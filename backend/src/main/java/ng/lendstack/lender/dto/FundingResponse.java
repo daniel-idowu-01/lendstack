@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import ng.lendstack.domain.LoanFunding;
 
-/** One lender's slice of one loan, with repayment progress. */
+
 public record FundingResponse(
     String id,
     String loanId,

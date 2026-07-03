@@ -29,7 +29,6 @@ import type {
   VerificationStatus,
 } from "./types";
 
-// ---------- Auth ----------
 
 export const authApi = {
   login: async (email: string, password: string) =>
@@ -38,7 +37,6 @@ export const authApi = {
     unwrap((await api.post<ApiEnvelope<AuthResponse>>("/auth/register", body)).data),
 };
 
-// ---------- Borrower ----------
 
 export const borrowerApi = {
   profile: async () =>
@@ -138,7 +136,6 @@ export const borrowerApi = {
     ),
 };
 
-// ---------- Public (guarantor links) ----------
 
 export const guarantorPublicApi = {
   view: async (token: string) =>
@@ -154,7 +151,6 @@ export const guarantorPublicApi = {
     ),
 };
 
-// ---------- Officer ----------
 
 export const officerApi = {
   queue: async (params: {
@@ -246,7 +242,6 @@ export const officerApi = {
     ),
 };
 
-// ---------- Admin ----------
 
 export const adminApi = {
   config: async () => unwrap((await api.get<ApiEnvelope<ConfigResponse[]>>("/admin/config")).data),

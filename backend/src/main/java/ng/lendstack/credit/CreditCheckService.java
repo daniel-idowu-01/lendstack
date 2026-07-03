@@ -48,11 +48,7 @@ public class CreditCheckService {
     private final AuditService auditService;
     private final ObjectMapper objectMapper;
 
-    /**
-     * Runs BVN verification (stub) + rule-based scoring. First run moves the
-     * loan UNDER_REVIEW → CREDIT_CHECK; re-runs while in CREDIT_CHECK add a new
-     * assessment row (assessments are never mutated).
-     */
+
     @Transactional
     public CreditAssessmentResponse runCreditCheck(UUID loanId, UUID officerId) {
         Loan loan = loan(loanId);
@@ -87,7 +83,7 @@ public class CreditCheckService {
         return toResponse(assessment);
     }
 
-    /** New assessment row with overridden=true; the rule-based rows stay untouched. */
+
     @Transactional
     public CreditAssessmentResponse overrideScore(UUID loanId, UUID officerId,
                                                   ScoreOverrideRequest request) {

@@ -3,24 +3,7 @@ package ng.lendstack.domain.enums;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Loan lifecycle. Transitions are a branching graph (confirmed with product):
- *
- * <pre>
- * DRAFT → SUBMITTED → UNDER_REVIEW → CREDIT_CHECK → PENDING_GUARANTOR
- *       → PENDING_COLLATERAL → APPROVED → DISBURSED → ACTIVE ⇄ DELINQUENT
- *
- * UNDER_REVIEW / CREDIT_CHECK → REJECTED                (terminal)
- * PENDING_GUARANTOR → UNDER_REVIEW                      (72h guarantor expiry)
- * ACTIVE → CLOSED                                       (fully repaid)
- * DELINQUENT → ACTIVE                                   (arrears cured)
- * DELINQUENT → DEFAULTED → WRITTEN_OFF | CLOSED         (write-off or settled)
- * </pre>
- *
- * Loans that require no guarantor/collateral still pass THROUGH those states —
- * the transition is applied automatically and audit-logged, never skipped.
- * Any move outside this graph requires an ADMIN override, which is audit-logged.
- */
+
 public enum LoanStatus {
     DRAFT,
     SUBMITTED,

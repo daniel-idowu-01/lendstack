@@ -9,11 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/**
- * Stores documents under a configurable root directory (a mounted volume in
- * Docker). Files are renamed to UUIDs — the original name lives in the
- * loan_documents row — so user input never influences filesystem paths.
- */
+
 @Service
 public class LocalStorageService implements StorageService {
 
@@ -50,7 +46,7 @@ public class LocalStorageService implements StorageService {
         }
     }
 
-    /** Confines every path to the storage root (defense against traversal). */
+
     private Path resolve(String relative) {
         Path resolved = root.resolve(relative).normalize();
         if (!resolved.startsWith(root)) {

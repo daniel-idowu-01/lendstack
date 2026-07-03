@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-/** Helpers for the acting user + client IP (recorded in every audit entry). */
+
 @Component
 public class RequestContext {
 
@@ -19,7 +19,7 @@ public class RequestContext {
         return null;
     }
 
-    /** Email of acting user, or "SYSTEM" for scheduled jobs and webhooks. */
+
     public String actor() {
         UserPrincipal user = currentUser();
         return user != null ? user.getEmail() : "SYSTEM";

@@ -7,12 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Transactional-outbox producer: notifications are enqueued in the caller's
- * transaction, so an email is only ever "sent" if the business change that
- * caused it actually committed. Delivery happens asynchronously in
- * {@link NotificationWorker}.
- */
+
 @Service
 @RequiredArgsConstructor
 public class NotificationService {

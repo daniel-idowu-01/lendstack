@@ -32,8 +32,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                // Invalid/expired token → request proceeds unauthenticated and is
-                // rejected by authorization rules with a clean 401.
                 log.debug("JWT rejected: {}", e.getMessage());
             }
         }

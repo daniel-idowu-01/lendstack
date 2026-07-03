@@ -19,11 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ng.lendstack.domain.enums.InstallmentStatus;
 
-/**
- * One row of the amortization schedule (reducing balance method — CBN preferred).
- * Generated in full at disbursement; never regenerated. Penalties accrue on
- * penaltyDue after the configurable grace period.
- */
+
 @Entity
 @Table(name = "repayment_installments",
     uniqueConstraints = @UniqueConstraint(columnNames = {"loan_id", "installment_number"}))
@@ -50,12 +46,12 @@ public class RepaymentInstallment extends BaseEntity {
     @Column(name = "interest_due", nullable = false, precision = 19, scale = 2)
     private BigDecimal interestDue;
 
-    /** Late-payment penalty accrued so far (configurable % per day after grace period). */
+
     @Column(name = "penalty_due", nullable = false, precision = 19, scale = 2)
     @Builder.Default
     private BigDecimal penaltyDue = BigDecimal.ZERO;
 
-    /** principalDue + interestDue (excludes penalty, which is tracked separately). */
+
     @Column(name = "total_due", nullable = false, precision = 19, scale = 2)
     private BigDecimal totalDue;
 

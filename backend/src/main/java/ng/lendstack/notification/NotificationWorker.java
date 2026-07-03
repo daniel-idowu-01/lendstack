@@ -10,13 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * ==== STUB — REPLACE WITH REAL PROVIDER ====
- * Drains the notification outbox. Currently it just logs (masked) and marks
- * rows SENT. To go live, replace the body of {@link #deliver} with a real
- * email/SMS provider call (Termii, SendGrid, SES…) — the outbox pattern,
- * retries and callers all stay exactly as they are.
- */
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -42,7 +36,6 @@ public class NotificationWorker {
     }
 
     private void deliver(NotificationOutbox n) {
-        // Message content passes through the PII-masking log converter.
         log.info("[STUB EMAIL] to={} type={} subject={}", n.getRecipientEmail(), n.getType(),
             n.getSubject());
     }

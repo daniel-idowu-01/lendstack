@@ -17,10 +17,7 @@ import ng.lendstack.domain.enums.RiskTier;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-/**
- * One row per scoring run. Officer overrides create a NEW row with
- * overridden=true and a mandatory reason — earlier assessments are never mutated.
- */
+
 @Entity
 @Table(name = "credit_assessments")
 @Getter
@@ -41,7 +38,7 @@ public class CreditAssessment extends BaseEntity {
     @Column(name = "risk_tier", nullable = false)
     private RiskTier riskTier;
 
-    /** Per-rule breakdown: [{rule, points, maxPoints, detail}, ...] — PII already masked. */
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private String breakdown;

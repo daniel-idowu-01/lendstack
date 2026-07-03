@@ -12,11 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { LoadingState } from "@/components/page-states";
 
-/**
- * Paystack redirects here after checkout (?reference=... or ?trxref=...).
- * We confirm the charge server-side; the webhook usually got there first —
- * either way this is safe to reload.
- */
+
 function CallbackContent() {
   const params = useSearchParams();
   const reference = params.get("reference") ?? params.get("trxref");

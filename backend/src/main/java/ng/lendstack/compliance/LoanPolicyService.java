@@ -7,19 +7,14 @@ import ng.lendstack.config.ConfigKeys;
 import ng.lendstack.config.SystemConfigService;
 import org.springframework.stereotype.Service;
 
-/**
- * CBN compliance policy, driven entirely by system_config — nothing hardcoded.
- * Tenure bounds (1–24 months per CBN microfinance guidelines), amount bounds,
- * the interest rate cap, and the guarantor/collateral tiers all live in the DB
- * and are editable by ADMIN without a redeploy.
- */
+
 @Service
 @RequiredArgsConstructor
 public class LoanPolicyService {
 
     private final SystemConfigService config;
 
-    /** Validates a loan application's amount and tenure against CBN-configured bounds. */
+
     public void validateApplication(BigDecimal amount, int tenureMonths) {
         int minTenure = config.getInt(ConfigKeys.LOAN_TENURE_MIN_MONTHS);
         int maxTenure = config.getInt(ConfigKeys.LOAN_TENURE_MAX_MONTHS);
@@ -36,7 +31,7 @@ public class LoanPolicyService {
         }
     }
 
-    /** Rejects any rate above the CBN consumer-lending cap. */
+
     public void validateInterestRate(BigDecimal annualRate) {
         BigDecimal cap = config.getDecimal(ConfigKeys.INTEREST_RATE_CAP_ANNUAL);
         if (annualRate.compareTo(BigDecimal.ZERO) <= 0 || annualRate.compareTo(cap) > 0) {
@@ -45,7 +40,7 @@ public class LoanPolicyService {
         }
     }
 
-    /** 0 guarantors up to tier-1 max, 1 up to tier-2 max, 2 above that. */
+
     public int guarantorsRequiredFor(BigDecimal amount) {
         if (amount.compareTo(config.getDecimal(ConfigKeys.GUARANTOR_TIER1_MAX_NGN)) <= 0) {
             return 0;

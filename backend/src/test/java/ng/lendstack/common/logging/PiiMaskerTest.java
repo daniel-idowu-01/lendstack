@@ -29,7 +29,6 @@ class PiiMaskerTest {
 
     @Test
     void leavesLongerDigitRunsAlone() {
-        // 12+ digits is not a BVN/NUBAN — don't mangle transaction ids
         assertEquals("tx 123456789012", PiiMasker.mask("tx 123456789012"));
     }
 }

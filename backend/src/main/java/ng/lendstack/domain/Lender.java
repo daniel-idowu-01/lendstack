@@ -14,10 +14,7 @@ import lombok.Setter;
 import ng.lendstack.domain.enums.LenderType;
 import ng.lendstack.domain.enums.RiskTier;
 
-/**
- * A funding source (individual or institution). Loans are split across lenders
- * at approval based on wallet balance, exposure headroom and risk preference.
- */
+
 @Entity
 @Table(name = "lenders")
 @Getter
@@ -37,21 +34,21 @@ public class Lender extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    /** Funds available to lend. Debited at disbursement, credited on repayment distribution. */
+
     @Column(name = "wallet_balance", nullable = false, precision = 19, scale = 2)
     @Builder.Default
     private BigDecimal walletBalance = BigDecimal.ZERO;
 
-    /** Maximum total principal this lender may have outstanding at once. */
+
     @Column(name = "max_exposure", nullable = false, precision = 19, scale = 2)
     private BigDecimal maxExposure;
 
-    /** Principal currently outstanding across all funded loans. */
+
     @Column(name = "current_exposure", nullable = false, precision = 19, scale = 2)
     @Builder.Default
     private BigDecimal currentExposure = BigDecimal.ZERO;
 
-    /** Highest risk tier this lender accepts (LOW = only LOW; HIGH = LOW/MEDIUM/HIGH). */
+
     @Enumerated(EnumType.STRING)
     @Column(name = "preferred_risk_tier", nullable = false)
     @Builder.Default

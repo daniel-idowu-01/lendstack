@@ -4,11 +4,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.springframework.stereotype.Component;
 
-/**
- * JPA converter that transparently encrypts PII columns at rest.
- * Instantiated by Hibernate through Spring's bean container, so constructor
- * injection works.
- */
+
 @Component
 @Converter
 public class PiiAttributeConverter implements AttributeConverter<String, String> {

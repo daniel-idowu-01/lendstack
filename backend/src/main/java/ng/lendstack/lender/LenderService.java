@@ -77,7 +77,7 @@ public class LenderService {
         return LenderResponse.from(lender);
     }
 
-    /** STUB settlement: ADMIN credits the wallet directly. Real flow = bank transfer reconciliation. */
+
     @Transactional
     public LenderResponse topUpWallet(UUID lenderId, BigDecimal amount) {
         Lender lender = get(lenderId);

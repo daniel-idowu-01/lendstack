@@ -17,15 +17,7 @@ import ng.lendstack.repository.LoanRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Disbursement: money out to the borrower's bank account.
- *
- * ==== STUB — REPLACE WITH REAL TRANSFER RAIL ====
- * The actual bank transfer is simulated (logged + audit-flagged). To go live,
- * wire {@link #executeTransfer} to Paystack Transfers or NIP, funded from the
- * committed lender wallets. Everything around it — the collateral gate, the
- * schedule generation, the state transitions — is production logic.
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -46,7 +38,6 @@ public class DisbursementService {
         if (loan.getStatus() != LoanStatus.APPROVED) {
             throw ApiException.conflict("WRONG_STATE", "Only APPROVED loans can be disbursed");
         }
-        // Final gate: CBN §8 — no disbursement without verified collateral where required.
         if (loan.isCollateralRequired() && !collateralService.hasVerifiedCollateral(loanId)) {
             throw ApiException.conflict("COLLATERAL_UNVERIFIED",
                 "This loan requires VERIFIED collateral before disbursement");

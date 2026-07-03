@@ -14,10 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * One lender's slice of one loan. Created by the matching engine at approval;
- * principalRepaid grows as repayments are distributed pro-rata.
- */
+
 @Entity
 @Table(name = "loan_fundings",
     uniqueConstraints = @UniqueConstraint(columnNames = {"loan_id", "lender_id"}))

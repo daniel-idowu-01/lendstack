@@ -12,11 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
-/**
- * Runtime-editable configuration (CBN caps, penalty rates, tiers…). Seeded from
- * environment variables by Flyway on first run; thereafter the DB is the source
- * of truth and ADMIN edits it through the API (every change audit-logged).
- */
+
 @Entity
 @Table(name = "system_config")
 @Getter
@@ -33,7 +29,7 @@ public class SystemConfig {
     @Column(name = "config_value", nullable = false)
     private String value;
 
-    /** NUMBER | BOOLEAN | STRING — for admin UI rendering/validation. */
+
     @Column(name = "value_type", nullable = false)
     private String valueType;
 

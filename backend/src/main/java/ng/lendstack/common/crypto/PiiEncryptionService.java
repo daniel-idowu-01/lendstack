@@ -10,11 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-/**
- * AES-256-GCM encryption for PII columns (BVN, NIN, bank account numbers).
- * The key comes from the PII_ENCRYPTION_KEY environment variable (Base64).
- * Ciphertext layout: base64( IV[12] || ciphertext+tag ).
- */
+
 @Service
 public class PiiEncryptionService {
 
@@ -37,7 +33,7 @@ public class PiiEncryptionService {
         this.key = new SecretKeySpec(raw, "AES");
     }
 
-    /** Pads/truncates to 32 bytes so dev keys of any length work; prod should supply exactly 32. */
+
     private byte[] normalizeKey(byte[] input) {
         byte[] out = new byte[32];
         for (int i = 0; i < 32; i++) {

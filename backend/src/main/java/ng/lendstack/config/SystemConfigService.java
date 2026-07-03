@@ -11,11 +11,7 @@ import ng.lendstack.security.RequestContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Typed access to runtime configuration (CBN caps, penalty rates, tiers).
- * The DB is the source of truth — changing a CBN parameter never requires a
- * redeploy. Every update is audit-logged.
- */
+
 @Service
 @RequiredArgsConstructor
 public class SystemConfigService {
@@ -71,7 +67,7 @@ public class SystemConfigService {
                         throw ApiException.badRequest("CONFIG_INVALID", "Value must be true or false");
                     }
                 }
-                default -> { /* STRING: anything goes */ }
+                default -> { }
             }
         } catch (NumberFormatException e) {
             throw ApiException.badRequest("CONFIG_INVALID",

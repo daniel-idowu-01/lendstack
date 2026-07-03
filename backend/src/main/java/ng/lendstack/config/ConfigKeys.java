@@ -1,9 +1,6 @@
 package ng.lendstack.config;
 
-/**
- * Keys in the system_config table (seeded by V2 migration from environment
- * variables, editable afterwards by ADMIN through the API).
- */
+
 public final class ConfigKeys {
 
     public static final String INTEREST_RATE_CAP_ANNUAL = "interest.rate.cap.annual";

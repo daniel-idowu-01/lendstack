@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ng.lendstack.domain.enums.PaymentStatus;
 
-/** One Paystack checkout attempt against one installment. */
+
 @Entity
 @Table(name = "payment_transactions")
 @Getter
@@ -35,7 +35,7 @@ public class PaymentTransaction extends BaseEntity {
     @JoinColumn(name = "installment_id", nullable = false)
     private RepaymentInstallment installment;
 
-    /** Our reference, sent to Paystack as the transaction reference. */
+
     @Column(nullable = false, unique = true)
     private String reference;
 
@@ -50,7 +50,7 @@ public class PaymentTransaction extends BaseEntity {
     @Column(name = "authorization_url", length = 1000)
     private String authorizationUrl;
 
-    /** card / bank / ussd / transfer — from the Paystack webhook. */
+
     private String channel;
 
     @Column(name = "paid_at")

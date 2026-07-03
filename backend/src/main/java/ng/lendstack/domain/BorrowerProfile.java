@@ -20,10 +20,7 @@ import lombok.ToString;
 import ng.lendstack.common.crypto.PiiAttributeConverter;
 import ng.lendstack.domain.enums.EmploymentStatus;
 
-/**
- * Borrower KYC data. BVN, NIN and bank account number are encrypted at rest
- * (AES-256-GCM) and MUST never be logged or serialized raw (NDPC).
- */
+
 @Entity
 @Table(name = "borrower_profiles")
 @Getter
@@ -37,7 +34,7 @@ public class BorrowerProfile extends BaseEntity {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    /** Bank Verification Number — 11 digits, mandatory before a loan can leave SUBMITTED. */
+
     @ToString.Exclude
     @Convert(converter = PiiAttributeConverter.class)
     @Column(name = "bvn", length = 512)
@@ -47,7 +44,7 @@ public class BorrowerProfile extends BaseEntity {
     @Builder.Default
     private boolean bvnVerified = false;
 
-    /** National Identification Number — optional. */
+
     @ToString.Exclude
     @Convert(converter = PiiAttributeConverter.class)
     @Column(name = "nin", length = 512)

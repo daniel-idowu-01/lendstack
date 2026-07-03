@@ -4,10 +4,7 @@ import * as React from "react";
 import { X } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-/**
- * Lightweight controlled modal (overlay click + Escape close, body scroll
- * lock). API mirrors shadcn's Dialog closely enough for this app's needs.
- */
+
 export function Dialog({
   open,
   onClose,

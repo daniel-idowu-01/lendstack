@@ -15,12 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-/**
- * Thin Paystack API client. Amounts are converted to kobo (×100) as Paystack
- * requires. Webhook authenticity is HMAC-SHA512 of the raw body with the
- * secret key, compared against the x-paystack-signature header — every webhook
- * MUST pass {@link #isValidSignature} before any processing.
- */
+
 @Slf4j
 @Component
 public class PaystackClient {
@@ -64,7 +59,7 @@ public class PaystackClient {
             data.path("access_code").asText());
     }
 
-    /** Server-side verification — used by the redirect-callback path as a webhook fallback. */
+
     public JsonNode verifyTransaction(String reference) {
         requireConfigured();
         JsonNode response = restClient.get()

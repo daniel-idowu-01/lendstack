@@ -4,7 +4,7 @@ import { CheckCircle2, Circle } from "lucide-react";
 import { formatDateTime, humanize } from "@/lib/format";
 import type { TimelineEntry } from "@/lib/types";
 
-/** Vertical visual timeline of every state a loan has passed through. */
+
 export function LoanTimeline({ entries }: { entries: TimelineEntry[] }) {
   if (entries.length === 0) {
     return <p className="py-4 text-sm text-slate-500">No activity yet.</p>;

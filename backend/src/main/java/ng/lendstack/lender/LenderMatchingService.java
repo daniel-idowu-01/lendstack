@@ -19,18 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Matches an approved loan to funding lenders.
- *
- * Eligibility: active, risk appetite covers the loan's tier (a MEDIUM-appetite
- * lender funds LOW and MEDIUM loans), wallet balance > 0, exposure headroom > 0.
- * Allocation: lenders with the most headroom first, each taking
- * min(remaining, wallet, headroom) until the loan is fully covered — so large
- * loans are naturally split across several lenders.
- *
- * Funds are committed (wallet debited, exposure increased) at APPROVAL, not
- * disbursement, so two concurrent approvals cannot promise the same money.
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -79,7 +68,6 @@ public class LenderMatchingService {
         }
 
         if (remaining.signum() > 0) {
-            // Roll back the whole approval — partial funding is not offered.
             throw ApiException.conflict("INSUFFICIENT_LENDER_FUNDING",
                 ("Only ₦%,.2f of ₦%,.2f could be matched to lenders willing to fund a %s-risk "
                     + "loan. Register more lenders, top up wallets or raise exposure limits.")
@@ -89,7 +77,7 @@ public class LenderMatchingService {
         return fundings;
     }
 
-    /** Lender appetite is a ceiling: HIGH accepts LOW/MEDIUM/HIGH, LOW accepts only LOW. */
+
     private boolean accepts(RiskTier appetite, RiskTier loanTier) {
         return loanTier.ordinal() <= appetite.ordinal();
     }

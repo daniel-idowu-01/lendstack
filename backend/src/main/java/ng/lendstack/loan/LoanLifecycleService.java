@@ -12,11 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * The ONLY place a loan's status may change. Enforces the transition graph in
- * {@link LoanStatus}; every change (including ADMIN overrides that bypass the
- * graph) writes an immutable audit entry in the same transaction.
- */
+
 @Service
 @RequiredArgsConstructor
 public class LoanLifecycleService {
@@ -24,7 +20,7 @@ public class LoanLifecycleService {
     private final LoanRepository loanRepository;
     private final AuditService auditService;
 
-    /** Normal transition following the lifecycle graph. */
+
     @Transactional(propagation = Propagation.MANDATORY)
     public void transition(Loan loan, LoanStatus target, String reason) {
         LoanStatus from = loan.getStatus();
@@ -35,11 +31,7 @@ public class LoanLifecycleService {
         apply(loan, from, target, "STATE_CHANGE", reason);
     }
 
-    /**
-     * ADMIN-only escape hatch: moves a loan anywhere, including backwards or
-     * out of a terminal state. Mandatory reason; logged as ADMIN_OVERRIDE so
-     * these stand out in the audit trail.
-     */
+
     @Transactional(propagation = Propagation.MANDATORY)
     public void adminOverride(Loan loan, LoanStatus target, String reason) {
         LoanStatus from = loan.getStatus();
@@ -61,7 +53,7 @@ public class LoanLifecycleService {
                 loan.setClosedAt(now);
                 loan.setRejectionReason(reason);
             }
-            default -> { /* no denormalized timestamp */ }
+            default -> { }
         }
         loanRepository.save(loan);
         auditService.record("LOAN", loan.getId().toString(), action,

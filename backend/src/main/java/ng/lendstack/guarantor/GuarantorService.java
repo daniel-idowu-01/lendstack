@@ -27,19 +27,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Guarantor consent workflow. Requests are activated when the loan enters
- * PENDING_GUARANTOR (or when a guarantor is added while already in that state),
- * carry a configurable expiry (default 72h), and gate progression: the loan
- * only moves on when the required number have ACCEPTED; a decline or expiry
- * sends it back to UNDER_REVIEW with a logged reason.
- */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class GuarantorService {
 
-    /** States in which the borrower may still add/remove guarantors. */
+
     private static final List<LoanStatus> EDITABLE_STATES = List.of(
         LoanStatus.DRAFT, LoanStatus.SUBMITTED, LoanStatus.UNDER_REVIEW,
         LoanStatus.CREDIT_CHECK, LoanStatus.PENDING_GUARANTOR);
@@ -80,7 +74,6 @@ public class GuarantorService {
         auditService.record("GUARANTOR", guarantor.getId().toString(), "GUARANTOR_ADDED",
             null, Map.of("loan", loan.getReference(), "email", request.email()), null);
 
-        // Already waiting on guarantors? Start this one's clock immediately.
         if (loan.getStatus() == LoanStatus.PENDING_GUARANTOR) {
             activate(guarantor);
         }
@@ -99,7 +92,7 @@ public class GuarantorService {
         return forLoan(loanId);
     }
 
-    /** Called when a loan enters PENDING_GUARANTOR: starts the clock on every waiting guarantor. */
+
     @Transactional
     public void activateRequests(Loan loan) {
         guarantorRepository.findByLoanId(loan.getId()).stream()
@@ -112,7 +105,7 @@ public class GuarantorService {
         return guarantorRepository.countByLoanIdAndStatus(loanId, GuarantorStatus.ACCEPTED);
     }
 
-    /** Public (token-secured) view for the accept/decline page. */
+
     @Transactional(readOnly = true)
     public GuarantorInviteView invite(String token) {
         Guarantor g = byToken(token);
@@ -153,7 +146,7 @@ public class GuarantorService {
         return invite(token);
     }
 
-    /** All required guarantors accepted → move on to the collateral stage. */
+
     @Transactional
     public void maybeAdvance(Loan loan) {
         if (loan.getStatus() == LoanStatus.PENDING_GUARANTOR
@@ -163,10 +156,7 @@ public class GuarantorService {
         }
     }
 
-    /**
-     * Expiry sweeper: unanswered requests past their deadline are marked
-     * EXPIRED and the loan returns to UNDER_REVIEW with a logged reason.
-     */
+
     @Scheduled(fixedDelayString = "PT5M")
     @Transactional
     public void expireStaleRequests() {

@@ -40,7 +40,6 @@ public class PaystackWebhookController {
         try {
             repaymentService.handleWebhookEvent(objectMapper.readTree(rawBody));
         } catch (Exception e) {
-            // 5xx makes Paystack retry — correct for transient failures.
             log.error("Webhook processing failed", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -21,14 +21,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-/**
- * Role isolation is enforced by URL prefix — each portal has its own namespace:
- *   /api/v1/borrower/** → BORROWER
- *   /api/v1/officer/**  → LOAN_OFFICER
- *   /api/v1/admin/**    → ADMIN
- * Public: auth, Swagger, guarantor response links (token-secured), Paystack
- * webhook (signature-verified in the controller).
- */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity

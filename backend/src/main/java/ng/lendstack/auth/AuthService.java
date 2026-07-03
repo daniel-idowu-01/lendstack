@@ -27,7 +27,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuditService auditService;
 
-    /** Self-service registration always creates a BORROWER. Staff accounts are created by ADMIN. */
+
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmailIgnoreCase(request.email())) {

@@ -16,10 +16,7 @@ export interface NavItem {
   icon: React.ReactNode;
 }
 
-/**
- * Role-guarded dashboard shell shared by the three portals. Unauthenticated →
- * /login; wrong role → 403 screen with a link to the user's own portal.
- */
+
 export function PortalShell({
   role,
   title,

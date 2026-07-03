@@ -10,7 +10,6 @@ class AmortizationTest {
 
     @Test
     void monthlyPaymentMatchesKnownAnnuity() {
-        // ₦1,000,000 at 24% p.a. over 12 months → r=2%/month
         BigDecimal payment = Amortization.monthlyPayment(
             new BigDecimal("1000000"), new BigDecimal("24"), 12);
         assertEquals(new BigDecimal("94559.60"), payment);
@@ -39,7 +38,6 @@ class AmortizationTest {
             totalInterest = totalInterest.add(interest);
         }
         assertEquals(0, outstanding.compareTo(BigDecimal.ZERO), "principal must sum exactly");
-        // Reducing balance: total interest well below the flat-rate figure (30%/12*6 = 15% = 75,000)
         assertTrue(totalInterest.compareTo(new BigDecimal("75000")) < 0,
             "reducing balance must charge less than flat rate, got " + totalInterest);
     }

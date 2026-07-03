@@ -151,7 +151,7 @@ export default function OfficerLoanReview() {
         </div>
       </div>
 
-      {/* Contextual workflow actions */}
+
       <Card>
         <CardContent className="flex flex-wrap items-center gap-2 p-4">
           {loan.status === "SUBMITTED" && (
@@ -425,7 +425,7 @@ export default function OfficerLoanReview() {
         </Card>
       </div>
 
-      {/* Reject */}
+
       <Dialog
         open={modal?.kind === "reject"}
         onClose={() => setModal(null)}
@@ -450,7 +450,7 @@ export default function OfficerLoanReview() {
         </div>
       </Dialog>
 
-      {/* Approve */}
+
       <Dialog
         open={modal?.kind === "approve"}
         onClose={() => setModal(null)}
@@ -478,7 +478,7 @@ export default function OfficerLoanReview() {
         </div>
       </Dialog>
 
-      {/* Score override */}
+
       <Dialog
         open={modal?.kind === "override"}
         onClose={() => setModal(null)}
@@ -522,7 +522,7 @@ export default function OfficerLoanReview() {
         </div>
       </Dialog>
 
-      {/* Write off */}
+
       <Dialog
         open={modal?.kind === "writeOff"}
         onClose={() => setModal(null)}
@@ -546,7 +546,7 @@ export default function OfficerLoanReview() {
         </div>
       </Dialog>
 
-      {/* Reject collateral */}
+
       <Dialog
         open={modal?.kind === "verifyCollateral"}
         onClose={() => setModal(null)}

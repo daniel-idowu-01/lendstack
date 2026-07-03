@@ -74,11 +74,7 @@ public class BorrowerLoanService {
         return loanMapper.toResponse(loan);
     }
 
-    /**
-     * DRAFT → SUBMITTED. BVN is required here (fail fast for the borrower) and
-     * checked again when an officer starts the review — a loan can never get
-     * past SUBMITTED without BVN linkage (CBN customer due diligence).
-     */
+
     @Transactional
     public LoanResponse submit(UUID borrowerId, UUID loanId) {
         Loan loan = ownedLoan(borrowerId, loanId);
@@ -115,7 +111,7 @@ public class BorrowerLoanService {
             timelineAssembler.timelineFor(loan.getId(), false));
     }
 
-    /** 404 (not 403) for other borrowers' loans, so loan IDs cannot be probed. */
+
     private Loan ownedLoan(UUID borrowerId, UUID loanId) {
         Loan loan = loanRepository.findById(loanId)
             .orElseThrow(() -> ApiException.notFound("Loan not found"));

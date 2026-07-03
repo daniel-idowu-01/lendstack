@@ -16,13 +16,7 @@ import ng.lendstack.repository.LoanRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Officer decisions after the credit check. Gates, in order:
- *  CREDIT_CHECK → PENDING_GUARANTOR   requires a non-DECLINED risk tier
- *  PENDING_GUARANTOR → PENDING_COLLATERAL   all required guarantors ACCEPTED (auto)
- *  PENDING_COLLATERAL → APPROVED      verified collateral (if required), rate ≤ CBN cap,
- *                                     and full lender funding committed atomically
- */
+
 @Service
 @RequiredArgsConstructor
 public class LoanDecisionService {
@@ -35,12 +29,7 @@ public class LoanDecisionService {
     private final LoanPolicyService policyService;
     private final LoanMapper loanMapper;
 
-    /**
-     * CREDIT_CHECK → PENDING_GUARANTOR. Starts the guarantor consent clocks; if
-     * the loan needs no guarantors (or they have already all accepted), it
-     * passes straight through to PENDING_COLLATERAL — the pass-through is a
-     * real, audit-logged transition, never a skipped state.
-     */
+
     @Transactional
     public LoanResponse proceedToGuarantors(UUID loanId) {
         Loan loan = get(loanId);
@@ -64,11 +53,7 @@ public class LoanDecisionService {
         return loanMapper.toResponse(loan);
     }
 
-    /**
-     * PENDING_COLLATERAL → APPROVED, committing lender funding atomically:
-     * if lenders cannot cover the full amount the transaction rolls back and
-     * the loan stays where it was.
-     */
+
     @Transactional
     public LoanResponse approve(UUID loanId, BigDecimal requestedRate) {
         Loan loan = get(loanId);

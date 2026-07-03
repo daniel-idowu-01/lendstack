@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import ng.lendstack.domain.enums.LoanStatus;
 
-/** ADMIN override of a loan's state outside the normal graph. Reason is mandatory. */
+
 public record StatusOverrideRequest(
     @NotNull LoanStatus targetStatus,
     @NotBlank @Size(min = 10, max = 1000,

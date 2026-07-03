@@ -48,7 +48,7 @@ public class JwtService {
             .compact();
     }
 
-    /** Parses and verifies the token; throws JwtException if invalid/expired. */
+
     public UserPrincipal parse(String token) {
         Claims claims = Jwts.parser().verifyWith(key).build()
             .parseSignedClaims(token).getPayload();

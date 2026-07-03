@@ -28,7 +28,7 @@ export function getUser(): UserDto | null {
   }
 }
 
-/** The portal a role lands on after login. */
+
 export function homeFor(role: Role): string {
   switch (role) {
     case "BORROWER":

@@ -1,7 +1,4 @@
-/**
- * The one and only currency/date formatting layer — components never format
- * raw numbers or dates themselves.
- */
+
 
 const nairaFormatter = new Intl.NumberFormat("en-NG", {
   style: "currency",
@@ -24,13 +21,13 @@ export function formatNaira(value: number | null | undefined): string {
   return nairaFormatter.format(value);
 }
 
-/** Compact ₦ for dashboards: no kobo when the amount is whole. */
+
 export function formatNairaCompact(value: number | null | undefined): string {
   if (value === null || value === undefined) return "—";
   return Number.isInteger(value) ? nairaWholeFormatter.format(value) : nairaFormatter.format(value);
 }
 
-/** DD/MM/YYYY — the Nigerian convention. Accepts ISO dates and instants. */
+
 export function formatDate(value: string | null | undefined): string {
   if (!value) return "—";
   const date = new Date(value);
@@ -49,7 +46,7 @@ export function formatDateTime(value: string | null | undefined): string {
   return `${formatDate(value)} ${hh}:${min}`;
 }
 
-/** SNAKE_CASE → Title Case for statuses and enum labels. */
+
 export function humanize(value: string | null | undefined): string {
   if (!value) return "—";
   return value

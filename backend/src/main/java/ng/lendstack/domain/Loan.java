@@ -28,7 +28,7 @@ import ng.lendstack.domain.enums.RiskTier;
 @AllArgsConstructor
 public class Loan extends BaseEntity {
 
-    /** Human-readable reference, e.g. LN-2026-000042. */
+
     @Column(nullable = false, unique = true)
     private String reference;
 
@@ -45,7 +45,7 @@ public class Loan extends BaseEntity {
     @Column(name = "tenure_months", nullable = false)
     private int tenureMonths;
 
-    /** Annual nominal rate (%), fixed at approval; must be <= the CBN cap in system_config. */
+
     @Column(name = "interest_rate_annual", precision = 5, scale = 2)
     private BigDecimal interestRateAnnual;
 
@@ -58,7 +58,7 @@ public class Loan extends BaseEntity {
     @Column(name = "risk_tier")
     private RiskTier riskTier;
 
-    /** Latest credit score (0–100), denormalized from credit_assessments. */
+
     @Column(name = "credit_score")
     private Integer creditScore;
 
@@ -70,7 +70,7 @@ public class Loan extends BaseEntity {
     @Builder.Default
     private boolean collateralRequired = false;
 
-    /** Principal not yet repaid; set at disbursement, reduced by each repayment. */
+
     @Column(name = "outstanding_principal", precision = 19, scale = 2)
     private BigDecimal outstandingPrincipal;
 
